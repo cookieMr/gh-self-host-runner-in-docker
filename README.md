@@ -1,5 +1,9 @@
 # GitHub Self Hosted Runner (as Docker)
 
+Attach a self hosted runner to you repo. E.g. to run workflows in private
+repo without time limits (it's [2000 min](https://docs.github.com/en/billing/concepts/product-billing/github-actions#free-use-of-github-actions) per month in a *GitHub Free* plan).
+
+## Creating the `.env` file
 Use `.env_example` as a template to create the `.env` file that will
 provide secrets and configuration variables to the `docker-compose`.
  * `GITHUB_OWNER` - your user name
