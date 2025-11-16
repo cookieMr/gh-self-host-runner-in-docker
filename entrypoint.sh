@@ -40,4 +40,6 @@ fi
 
 trap cleanup SIGINT SIGQUIT SIGTERM
 
+echo "Runner configured for $GITHUB_REPOSITORY repo."
+
 ./run.sh & wait $!
