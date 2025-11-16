@@ -1,0 +1,30 @@
+services:
+  github-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: github-runner
+    environment:
+      - GITHUB_OWNER=${GITHUB_OWNER}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_PAT=${GITHUB_PAT}
+      - RUNNER_NAME=docker-runner-cookieMr
+      - RUNNER_LABELS=self-hosted,linux,x64
+    volumes:
+      - github_runner_data:/home/docker/actions-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -q actions-runner"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: 4096M
+
+volumes:
+  github_runner_data:
