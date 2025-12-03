@@ -1,17 +1,18 @@
 services:
-  github-runner:
+
+  github-runner-1:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: github-runner
+    container_name: github-runner-1
     environment:
       - GITHUB_OWNER=${GITHUB_OWNER}
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - GITHUB_PAT=${GITHUB_PAT}
-      - RUNNER_NAME=docker-runner-cookieMr
+      - RUNNER_NAME=docker-runner-cookieMr-1
       - RUNNER_LABELS=self-hosted,linux,x64
     volumes:
-      - github_runner_data:/home/docker/actions-runner
+      - github_runner_data_1:/home/docker/actions-runner
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     healthcheck:
@@ -19,12 +20,68 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 1m
+      start_period: 30s
     deploy:
       resources:
         limits:
-          cpus: "4"
-          memory: 4096M
+          cpus: "1"
+          memory: 2048M
+  
+  github-runner-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: github-runner-2
+    environment:
+      - GITHUB_OWNER=${GITHUB_OWNER}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_PAT=${GITHUB_PAT}
+      - RUNNER_NAME=docker-runner-cookieMr-2
+      - RUNNER_LABELS=self-hosted,linux,x64
+    volumes:
+      - github_runner_data_2:/home/docker/actions-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -q actions-runner"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048M
+
+  github-runner-3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: github-runner-3
+    environment:
+      - GITHUB_OWNER=${GITHUB_OWNER}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_PAT=${GITHUB_PAT}
+      - RUNNER_NAME=docker-runner-cookieMr-3
+      - RUNNER_LABELS=self-hosted,linux,x64
+    volumes:
+      - github_runner_data_3:/home/docker/actions-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep -q actions-runner"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048M
 
 volumes:
-  github_runner_data:
+  github_runner_data_1:
+  github_runner_data_2:
+  github_runner_data_3:
